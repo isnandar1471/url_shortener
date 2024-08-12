@@ -1,0 +1,19 @@
+get:
+  tags:
+    - Shorts
+  summary: Redirect to the original URL
+  description: Redirect to the original URL based on the code
+  parameters:
+    - name: code
+      in: path
+      description: The code of the shortened URL
+      required: true
+      schema:
+        type: string
+  responses:
+    302:
+      description: Redirect to
+      content:
+        text/html:
+          schema:
+            type: string

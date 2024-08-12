@@ -1,0 +1,47 @@
+openapi: 3.0.0
+
+info:
+  title: URL Shortener API
+  description: This is the API specification for the URL Shortener project. It provides a way to shorten URLs and retrieve the original URL from the shortened URL.
+  contact:
+    name: Isnandar Fajar Pangestu
+    email: isnandar.1471@gmail.com
+    url: https://isnandar1471.github.io
+  version: "1.0.0"
+
+tags:
+  - name: Users
+    description: Users
+  - name: Shorts
+    description: Shorts
+
+servers:
+  - url: http://localhost:{port}/
+    variables:
+      port:
+        default: 5555
+    description: Local server
+  - url: https://sudutfajar.my.id/go/
+    description: Production server
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+paths:
+  /api/register:
+    $ref: paths/api_register.yaml
+  /api/login:
+    $ref: paths/api_login.yaml
+  /api/short:
+    $ref: paths/api_short.yaml
+  /api/short/{code}:
+    $ref: paths/api_short_{code}.yaml
+  /api/shorts:
+    $ref: paths/api_shorts.yaml
+  /api/short_clicks/{shortCode}:
+    $ref: paths/api_short_clicks_{shortCode}.yaml
+  /{shortCode}:
+    $ref: paths/{shortCode}.yaml

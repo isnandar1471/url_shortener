@@ -1,0 +1,39 @@
+get:
+  tags:
+    - Shorts
+  security:
+    - BearerAuth: []
+  parameters:
+    - name: short_code
+      in: path
+      schema:
+        type: string
+  responses:
+    200:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: number
+                short_id:
+                  type: number
+                clicked_at:
+                  type: number
+                ip_address:
+                  type: string
+                user_agent:
+                  type: string
+    403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
