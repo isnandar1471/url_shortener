@@ -21,7 +21,7 @@ servers:
       port:
         default: 5555
     description: Local server
-  - url: https://sudutfajar.my.id/go/
+  - url: https://www.sudutfajar.my.id/go/
     description: Production server
 
 components:

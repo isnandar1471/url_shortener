@@ -48,13 +48,13 @@ func main() {
 	//region Add api handler in this section
 	mux.HandleFunc("POST /api/register", enableCors(api.HandlePostRegister))
 	mux.HandleFunc("POST /api/login", enableCors(api.HandlePostLogin))
-	mux.HandleFunc("POST /api/check-user", api.HandleGetCheckUserExist)
-	mux.HandleFunc("GET /api/shorts", api.HandleGetShorts)
-	mux.HandleFunc("POST /api/short", api.HandlePostShort)
-	mux.HandleFunc("PATCH /api/short/{short_code}", api.HandlePatchShortByCode)
-	mux.HandleFunc("DELETE /api/short/{short_code}", api.HandleDeleteShortByCode)
-	mux.HandleFunc("GET /api/short_clicks/{short_code}", api.HandleGetShortClickByCode)
-	mux.HandleFunc("GET /{short_code}", api.HandleGetGo)
+	mux.HandleFunc("POST /api/check-user", enableCors(api.HandleGetCheckUserExist))
+	mux.HandleFunc("GET /api/shorts", enableCors(api.HandleGetShorts))
+	mux.HandleFunc("POST /api/short", enableCors(api.HandlePostShort))
+	mux.HandleFunc("PATCH /api/short/{short_code}", enableCors(api.HandlePatchShortByCode))
+	mux.HandleFunc("DELETE /api/short/{short_code}", enableCors(api.HandleDeleteShortByCode))
+	mux.HandleFunc("GET /api/short_clicks/{short_code}", enableCors(api.HandleGetShortClickByCode))
+	mux.HandleFunc("GET /{short_code}", enableCors(api.HandleGetGo))
 
 	//endregion
 
@@ -80,7 +80,7 @@ func randSeq(n int) string {
 func enableCors(handler http.HandlerFunc) http.HandlerFunc {
 	println("enableCors otw")
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5555")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 
 		println("enableCors jalan")
 		handler(w, r)
