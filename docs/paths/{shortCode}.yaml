@@ -4,7 +4,7 @@ get:
   summary: Redirect to the original URL
   description: Redirect to the original URL based on the code
   parameters:
-    - name: code
+    - name: shortCode
       in: path
       description: The code of the shortened URL
       required: true

@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/isnandar1471/url_shortener/src/database"
 	"github.com/isnandar1471/url_shortener/src/structs"
@@ -53,13 +54,26 @@ func HandleGetShortClickByCode(w http.ResponseWriter, r *http.Request) {
 
 	conn := database.MakeConnection()
 	defer conn.Close(context.Background())
-
-	rows, _ := conn.Query(context.Background(), "SELECT short_clicks.id, short_clicks.short_id, short_clicks.clicked_at, short_clicks.ip_address, short_clicks.user_agent FROM short_clicks JOIN shorts ON shorts.id = short_clicks.short_id JOIN users ON shorts.user_id = users.id WHERE shorts.code=$1 AND users.username=$2", shortCode, username)
+	fmt.Println("short_code", shortCode)
+	fmt.Println("username", username)
+	rows, _ := conn.Query(context.Background(), `
+		SELECT short_clicks.id, 
+		       short_clicks.short_id, 
+		       short_clicks.clicked_at, 
+		       short_clicks.ip_address, 
+		       short_clicks.user_agent FROM short_clicks 
+		           LEFT JOIN shorts ON shorts.id = short_clicks.short_id 
+		           LEFT JOIN users ON shorts.user_id = users.id 
+		                               WHERE shorts.code=$1 
+		                                 AND users.username=$2
+		`, shortCode, username)
+	//WHERE short_clicks.id IN (SELECT id FROM shorts WHERE shorts.codo=$1)
 	shortClicks := []ShortClick{}
 	for rows.Next() {
+		fmt.Println("ADA DATA")
 		shortClick := ShortClick{}
 		_ = rows.Scan(&shortClick.Id, &shortClick.ShortId, &shortClick.ClickedAt, &shortClick.IpAddress, &shortClick.UserAgent)
-
+		fmt.Println(shortClick.Id, shortClick.ShortId, shortClick.ClickedAt, shortClick.IpAddress, shortClick.UserAgent)
 		shortClicks = append(shortClicks, shortClick)
 	}
 

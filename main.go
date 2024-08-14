@@ -56,6 +56,9 @@ func main() {
 	mux.HandleFunc("GET /api/short_clicks/{short_code}", enableCors(api.HandleGetShortClickByCode))
 	mux.HandleFunc("GET /{short_code}", enableCors(api.HandleGetGo))
 
+	// Sepertinya ini untuk mengatasi cors secara global. Perlu mencoba untuk yang secara spesifik
+	mux.HandleFunc("OPTIONS /", enableCors(func(w http.ResponseWriter, r *http.Request) {}))
+
 	//endregion
 
 	address := *Host + ":" + strconv.Itoa(*Port)
@@ -81,6 +84,8 @@ func enableCors(handler http.HandlerFunc) http.HandlerFunc {
 	println("enableCors otw")
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
 
 		println("enableCors jalan")
 		handler(w, r)

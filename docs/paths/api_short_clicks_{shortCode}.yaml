@@ -4,7 +4,7 @@ get:
   security:
     - BearerAuth: []
   parameters:
-    - name: short_code
+    - name: shortCode
       in: path
       schema:
         type: string
